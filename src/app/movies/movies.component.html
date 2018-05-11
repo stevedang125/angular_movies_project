@@ -1,4 +1,4 @@
-<h1>Movie's details: </h1>
+<!-- <h1>Movie's details: </h1>
 <div><span>id: </span>{{movie.id}}</div>
 <div><span>Name: </span>{{movie.name | uppercase}} </div>
 <div><span>Release Year: </span>{{movie.releaseYear}}</div>
@@ -13,4 +13,11 @@
     <label>Movie name(data binding two way):
         <input [(ngModel)]="movie.releaseYear" placeholder="*Enter movie's name">
     </label>
-</div>
+</div> -->
+
+<h2>My movies</h2>
+<ol class="movies">
+    <li class="movieListItem" *ngFor="let movie of movies">
+        {{movie.name}} - {{movie.releaseYear}} 
+    </li>
+</ol>

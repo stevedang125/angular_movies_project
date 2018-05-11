@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 // Add movie class into this movie component
 import { Movie } from '../../models/movie';
 
+// Add local json objects
+import { localMovies } from '../localMovies'
+
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
@@ -16,6 +19,8 @@ export class MoviesComponent implements OnInit {
     name: 'Star War',
     releaseYear: 1977
   }
+
+  movies = localMovies;
 
   constructor() { }
 
