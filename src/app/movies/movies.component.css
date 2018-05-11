@@ -1,3 +1,9 @@
+.selected
+{
+    background: mediumseagreen !important;
+    color: white;
+}
+
 .movies
 {
     background: #3399ff;

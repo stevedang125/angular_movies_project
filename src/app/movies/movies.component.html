@@ -17,7 +17,12 @@
 
 <h2>My movies</h2>
 <ol class="movies">
-    <li class="movieListItem" *ngFor="let movie of movies">
+    <li 
+    class="movieListItem" 
+    *ngFor="let movie of movies"
+    [class.selected] = "movie === selectedMovie"
+    (click) = "onSelect(movie)"
+    >
         {{movie.name}} - {{movie.releaseYear}} 
     </li>
 </ol>

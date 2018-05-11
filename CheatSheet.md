@@ -5,7 +5,11 @@
 3. [ngModel]="movie.name" (One-way data binding: View Only)
 4. [(ngModel)]="movie.name" (Two-way data binding: View and Edit)
 5. *ngFor="let movie of movies", {{movie.name}}, {{movie.releaseYear}}
-6. 
+6. Object to string:
+    console.log(this.selectedMovie);
+    console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
+   
+7. 
 ```
 ## Common Errors:
 ```
@@ -35,7 +39,11 @@
             FormsModule
         ],
 
-3.        
+3.  CSS there are two background colors, won't show up the other color
+    Solution: 
+        use "!important"      
+        background: mediumseagreen !important;
+        
 
 
 ```
@@ -86,32 +94,57 @@ Create a file to store local json objects for movie.
         {}, {}, {}
     ]
 
-    add the local json movie objects to the movies.component.ts
+Add the local json movie objects to the movies.component.ts
 
-    add some css to the list:
-        .movies
-        {
-            background: #3399ff;
-            padding: 0.5em 1em 0.5em 1.5em;
-            margin: 1em;
-            max-width: 16em;
-        }
+Add some css to the list:
+    .movies
+    {
+        background: #3399ff;
+        padding: 0.5em 1em 0.5em 1.5em;
+        margin: 1em;
+        max-width: 16em;
+    }
 
-        .movies .movieListItem
-        {
-            font-size: 0.875em; /* 14px/16=0.875em */
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            background: #cce5ff;
-            padding: 0.3em;
-            margin: 2.3em;
-            text-align: left;
-        }
+    .movies .movieListItem
+    {
+        font-size: 0.875em; /* 14px/16=0.875em */
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        background: #cce5ff;
+        padding: 0.3em;
+        margin: 2.3em;
+        text-align: left;
+    }
     
-    the view/template file:
+The view/template file:
     <ol class="movies">
         <li class="movieListItem" *ngFor="let movie of movies">
             {{movie.name}} - {{movie.releaseYear}} 
         </li>
     </ol>
 ```
+## 05 - Event Binding
+```
+Define a variable with datatype of Movie object
+Define a method with a movie object argument
+    selectedMovie: Movie;
+    onSelect(movie : Movie):void 
+    {
+        this.selectedMovie = movie;
+    }
+
+Change the background and color for selected list item:
+    .selected
+    {
+        background: mediumseagreen !important;
+        color: white;
+    }
+
+Event Binding:
+    If the movie is the selectedMovie, the current class will be selected
+    and change the background + text color.
+        [class.selected] = "movie === selectedMovie"
+        (click) = "onSelect(movie)"
+
+```
+
 

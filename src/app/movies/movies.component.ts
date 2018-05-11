@@ -27,4 +27,22 @@ export class MoviesComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Action when select a Movie in List Item
+  // Define a variable with datatype of Movie object
+  selectedMovie: Movie;
+
+  // Define a method with a movie object argument
+  onSelect(movie : Movie):void 
+  {
+    // Assign the input movie to the selected movie var
+    this.selectedMovie = movie;
+    console.log(this.selectedMovie);
+    console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
+    // alert(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
+    
+    // Output: Object to String
+    // Object { id: 3, name: "Star War", releaseYear: 1977 }
+    // selectedMovie = {"id":3,"name":"Star War","releaseYear":1977}
+  }
+
 }
