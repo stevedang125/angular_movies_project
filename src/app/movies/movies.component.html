@@ -1,20 +1,3 @@
-<!-- <h1>Movie's details: </h1>
-<div><span>id: </span>{{movie.id}}</div>
-<div><span>Name: </span>{{movie.name | uppercase}} </div>
-<div><span>Release Year: </span>{{movie.releaseYear}}</div>
-<h2>Edit your information: </h2>
-<div style="margin: 10px; text-align: left;" >
-    <label>Movie name(data binding one way):
-        <input [ngModel]="movie.name" placeholder="*Enter movie's name">
-    </label>
-</div>
-
-<div style="margin: 10px; text-align: left;" >
-    <label>Movie name(data binding two way):
-        <input [(ngModel)]="movie.releaseYear" placeholder="*Enter movie's name">
-    </label>
-</div> -->
-
 <h2>My movies</h2>
 <div class="parent">
     <ol class="movies">
@@ -27,8 +10,15 @@
             {{movie.name}} - {{movie.releaseYear}} 
         </li>
     </ol>
+
+    <!-- Moved to a new component for Input decorator practice -->
+    <!-- Use the selector instead -->
+    <!-- Assign the input data(selectedMovie) 
+        to var movie in movie-detail component -->
+    <app-movie-detail [movie]="selectedMovie" ></app-movie-detail>
+
     <!-- Only show when a movie is selected -->
-    <div *ngIf="selectedMovie" class="details">
+    <!-- <div *ngIf="selectedMovie" class="details">
         <h4>You selected: {{selectedMovie.name}}. Details:</h4>
         <tr>
             <td>Name: </td>
@@ -46,7 +36,7 @@
                 >
             </td>
         </tr>
-    </div>
+    </div> -->
     
 </div>
 

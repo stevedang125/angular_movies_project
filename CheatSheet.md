@@ -1,4 +1,4 @@
-## Short cut commands:
+## Quick review and short cut commands:
 ```
 1. ng serve --open --port 9090 (Open live server with custom port)
 2. ng g component <component name> OR ng generate component <component name>
@@ -10,6 +10,15 @@
     console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
    
 7. *ngIf="true".
+8. Input Decorator:
+    Component A:(data sender)
+        <app-movie-detail [movie]="selectedMovie" ></app-movie-detail>
+
+    Component B: (data receiver)
+        import { Component, OnInit, Input } from '@angular/core';
+        import { Movie } from '../../models/movie';
+        @Input() movie: Movie;
+
 ```
 ## Common Errors:
 ```
@@ -76,6 +85,24 @@ From the component to the view only.(One way)
 2. Two-way data binding (View and Edit)
 From the component to the view and from view back to component.(Two-way)
 <input [(ngModel)]="movie.name" placeholder="*Enter movie's name">
+
+<h1>Movie's details: </h1>
+<div><span>id: </span>{{movie.id}}</div>
+<div><span>Name: </span>{{movie.name | uppercase}} </div>
+<div><span>Release Year: </span>{{movie.releaseYear}}</div>
+
+<h2>Edit your information: </h2>
+<div style="margin: 10px; text-align: left;" >
+    <label>Movie name(data binding one way):
+        <input [ngModel]="movie.name" placeholder="*Enter movie's name">
+    </label>
+</div>
+
+<div style="margin: 10px; text-align: left;" >
+    <label>Movie name(data binding two way):
+        <input [(ngModel)]="movie.releaseYear" placeholder="*Enter movie's name">
+    </label>
+</div>
 ```
 ## 04 - *ngFor:
 ```
@@ -146,7 +173,7 @@ Event Binding:
         (click) = "onSelect(movie)"
 
 ```
-## 06 - *ngIf
+## 06 - *ngIf:
 ```
 Add CSS for parent(flex layout), details of the movie
     .parent
@@ -167,6 +194,30 @@ Assign new data if edited to the variables using two-way data binding:
     <input [(ngModel)]="selectedMovie.name" 
     <input [(ngModel)]="selectedMovie.releaseYear"
 ```
+## 07 - Input Decorator:
+```
+Create a new component to pass data to it instead for the *ngIf div
+    ng g component movie-detail
+html file
+    movie component:
+        use selector to replace the *ngIf div
+            <app-movie-detail><app-movie-detail>
+        assign the "Input data"
+            <app-movie-detail [movie]="selectedMovie"><app-movie-detail>
+            
+    movie-detail component:
+        change selectedMovie to var movie
 
+css file
+    same details class from movie.component.css
+
+ts file
+    Import input, movie object, input movie variable that 
+    get data from other component
+
+        import { Component, OnInit, Input } from '@angular/core';
+        import { Movie } from '../../models/movie';
+        @Input() movie: Movie;
+```
 
 

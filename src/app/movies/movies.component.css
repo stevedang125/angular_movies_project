@@ -4,7 +4,8 @@
 {
     display: flex; /*flexible layout, default: row */
 }
-.details
+/* Moved to movie detail component CSS */
+/* .details
 {
     background: mediumseagreen;
     color: white;
@@ -13,7 +14,7 @@
     max-width: 16em;
     text-align: left;
     font-size: 0.875em;
-}
+} */
 
 .selected
 {
