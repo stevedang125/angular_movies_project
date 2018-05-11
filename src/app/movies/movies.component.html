@@ -16,13 +16,38 @@
 </div> -->
 
 <h2>My movies</h2>
-<ol class="movies">
-    <li 
-    class="movieListItem" 
-    *ngFor="let movie of movies"
-    [class.selected] = "movie === selectedMovie"
-    (click) = "onSelect(movie)"
-    >
-        {{movie.name}} - {{movie.releaseYear}} 
-    </li>
-</ol>
+<div class="parent">
+    <ol class="movies">
+        <li 
+        class="movieListItem" 
+        *ngFor="let movie of movies"
+        [class.selected] = "movie === selectedMovie"
+        (click) = "onSelect(movie)"
+        >
+            {{movie.name}} - {{movie.releaseYear}} 
+        </li>
+    </ol>
+    <!-- Only show when a movie is selected -->
+    <div *ngIf="selectedMovie" class="details">
+        <h4>You selected: {{selectedMovie.name}}. Details:</h4>
+        <tr>
+            <td>Name: </td>
+            <td>
+                <input [(ngModel)]="selectedMovie.name" 
+                placeholder="*Name"
+                >
+            </td>
+        </tr>
+        <tr>
+            <td>Release Year: </td>
+            <td>
+                <input [(ngModel)]="selectedMovie.releaseYear" 
+                placeholder="*Release Year"
+                >
+            </td>
+        </tr>
+    </div>
+    
+</div>
+
+

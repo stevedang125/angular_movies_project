@@ -9,7 +9,7 @@
     console.log(this.selectedMovie);
     console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
    
-7. 
+7. *ngIf="true".
 ```
 ## Common Errors:
 ```
@@ -77,7 +77,7 @@ From the component to the view only.(One way)
 From the component to the view and from view back to component.(Two-way)
 <input [(ngModel)]="movie.name" placeholder="*Enter movie's name">
 ```
-## 04 - ngFor:
+## 04 - *ngFor:
 ```
 Create a file to store local json objects for movie.
     localMovies.ts
@@ -146,5 +146,27 @@ Event Binding:
         (click) = "onSelect(movie)"
 
 ```
+## 06 - *ngIf
+```
+Add CSS for parent(flex layout), details of the movie
+    .parent
+    {
+        display: flex; /*flexible layout, default: row */
+    }
+    .details
+    {
+        background: mediumseagreen;
+        color: white;
+        padding: 0.5em;
+        margin: 1em;
+        max-width: 16em;
+        text-align: left;
+        font-size: 0.875em;
+    }
+Assign new data if edited to the variables using two-way data binding:
+    <input [(ngModel)]="selectedMovie.name" 
+    <input [(ngModel)]="selectedMovie.releaseYear"
+```
+
 
 
