@@ -14,6 +14,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 // Services
 import { MovieService } from './services/movie.service';
 import { MessageService } from './services/message.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MessageService } from './services/message.service';
     MoviesComponent,
     MovieDetailComponent,
     MessagesComponent,
-    NavbarComponent
+    NavbarComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,8 @@
 3. [ngModel]="movie.name" (One-way data binding: View Only)
 4. [(ngModel)]="movie.name" (Two-way data binding: View and Edit)
 5. *ngFor="let movie of movies", {{movie.name}}, {{movie.releaseYear}}
+    LET ... OF ... 
+    NOT LET ... IN ... 
 6. Object to string:
     console.log(this.selectedMovie);
     console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
@@ -74,7 +76,12 @@
     app.component.html
         <app-navbar></app-navbar>
         <router-outlet></router-outlet>
-    
+13. Dashboard and Default Route
+    Default route:
+        { path: '',  redirectTo: '/dashboard', pathMatch:'full'},  
+    Everything else that isn't a valid path, redirect to /dashboard
+        { path: '**', redirectTo: '/dashboard', pathMatch:'full'}  
+
     
 
 ```
@@ -429,5 +436,77 @@ Navbar CSS
     }
         
 ```
+## 12 - Dashboard and Default Route:
+```
+Create a dashboard component
+    ng g component dashboard
+Add dashboard to the routes
+    import { DashboardComponent } from './dashboard/dashboard.component';
+    const routes: Routes = 
+    [
+        { path: '',  redirectTo: '/dashboard', pathMatch:'full'},  
+        { path: 'movies', component: MoviesComponent},
+        { path: 'dashboard', component: DashboardComponent},
+        { path: '**', redirectTo: '/dashboard', pathMatch:'full'}  
+    ];
+Add dashboard to Nav bar
+    <a class="nav-item" routerLink='/dashboard'>Dashboard</a>
+Dashboard TS:
+    Bring in Movie model and Movie Service
+        import { Movie } from '../../models/movie';
+        import { MovieService } from '../services/movie.service';
+    Get data from somewhere through the movie service
+        movies: Movie[] = [];
+        getMovies(): void {
+            this.movieService.getMovies().subscribe(data => {
+                this.movies = data.slice(1, 5);
+            });
+        }
+Dashboard HTML:
+    <h3>Top 4 movies</h3>
+    <div>
+    <a class="col-1-4" *ngFor="let movie of movies">
+        <div class="movie-box">
+        <h4>{{movie.name}}</h4>
+        </div>
+    </a>
+    </div>
+Dashboard CSS:
+    .col-1-4
+    {
+        float: left;
+        padding: 0 20px 20px 0;
+        width: 25%;
+    }
+    /* last child no padding right */
+    [class*='col-']:last-of-type{
+        padding-right: 0;
+    }
 
+    .movie-box
+    {
+        padding: 20px;
+        text-align: center;
+        color: #eee;
+        max-height: 120px;
+        min-width: 120px;
+        background: mediumseagreen;
+        border-radius: 20px;
+    }
+
+    .movie-box:hover
+    {
+        background: green;
+        cursor: pointer;
+        color: #eee;
+    }
+
+    /* Set CSS box-sizing property for Safari, Firefox, and more */
+    *, *:after, *:before
+    {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+```
 
