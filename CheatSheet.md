@@ -18,6 +18,12 @@
         import { Component, OnInit, Input } from '@angular/core';
         import { Movie } from '../../models/movie';
         @Input() movie: Movie;
+9.  ng g service movie
+    import and add this service into app.module.ts
+    Services can get data from:
+        Local storage
+        Mock data source
+        Web service.
 
 ```
 ## Common Errors:
@@ -218,6 +224,36 @@ ts file
         import { Component, OnInit, Input } from '@angular/core';
         import { Movie } from '../../models/movie';
         @Input() movie: Movie;
+```
+## 08 - Service
+```
+Create and Generate a service
+    ng g service movie
+Import the service into app.module.ts
+    import { MovieService } from './services/movie.service';
+    providers: [MovieService, ],
+Service ts file:
+    import { localMovies } from '../localMovies';
+    import { Movie } from '../../models/movie';
+    getMovies() : Movie[] {
+        return localMovies;
+    }
+Component that calls the movie service:
+    Bring in the service:
+        import { MovieService } from '../services/movie.service';
+    Defind a variable to hold the data, which is an array of objects
+        movies : Movie[];
+    Inject the service into the constructor
+        constructor(private movieService : MovieService) { }
+    Create the method to call the service and get the data,
+    then add the method to ngOnInit(), which will get call on start:
+        ngOnInit() {
+            this.getMoviesFromService();
+        }
+
+        getMoviesFromService() : void{
+            this.movies = this.movieService.getMovies();
+        }
 ```
 
 

@@ -6,6 +6,8 @@ import { MoviesComponent } from './movies/movies.component';
 import { FormsModule } from '@angular/forms';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 
+// Services
+import { MovieService } from './services/movie.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [MovieService, ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
