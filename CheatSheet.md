@@ -24,6 +24,26 @@
         Local storage
         Mock data source
         Web service.
+10. Observable
+    Get data asynchronously with Observable.
+    e.g: 
+        Observable object : "object" has been "watched" for "changes".
+        Observable<Movie[]>
+    Service file:
+        Bring in Observable
+            import { Observable } from 'rxjs/Observable';
+            import { of } from 'rxjs/observable/of';
+
+        Use Observable on the movie object array with the return "of" type
+        getMovies() : Observable< Movie[] >{
+            // return localMovies;
+            return of( localMovies );
+        }
+
+    Component:
+        Need to subcribe to wait for the data to get back
+            this.movieService.getMovies().subscribe(data => this.movies = data);
+
 
 ```
 ## Common Errors:
@@ -255,5 +275,24 @@ Component that calls the movie service:
             this.movies = this.movieService.getMovies();
         }
 ```
+## 09 - rxjs and Observable
+```
+Get data asynchronously with Observable.
+e.g: 
+    Observable object = "object" has been "watched" for "changes".
+    Observable<Movie[]>
+movie.service.ts file:
+    Bring in Observable and of:
+        import { Observable } from 'rxjs/Observable';
+        import { of } from 'rxjs/observable/of';
+    getMovies() : Observable< Movie[] > {
+        // return localMovies;
+        return of( localMovies );
+    }
+component.ts file:
+    Need to subcribe to wait for the data to get back
+        this.movieService.getMovies().subscribe(data => this.movies = data);
+```
+
 
 

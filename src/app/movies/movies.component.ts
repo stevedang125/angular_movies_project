@@ -32,7 +32,18 @@ export class MoviesComponent implements OnInit {
   // ================== Methods ===================================
   getMoviesFromService() : void
   {
-    this.movies = this.movieService.getMovies();
+    // Can't no longer use this, need to subscribe because the data 
+    // needs time to return back.
+    // this.movies = this.movieService.getMovies();
+    // this.movieService.getMovies().subscribe( 
+    //   (data) => {
+    //   this.movies = data;
+    //   console.log(`this.movies = ${JSON.stringify(this.movies)}`);
+    // });
+
+    // One line:
+    this.movieService.getMovies().subscribe(data => this.movies = data);
+    
   }
   // Define a method with a movie object argument
   onSelect(movie : Movie):void 
