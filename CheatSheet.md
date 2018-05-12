@@ -43,8 +43,17 @@
     Component:
         Need to subcribe to wait for the data to get back
             this.movieService.getMovies().subscribe(data => this.movies = data);
+11. Service calls other service, auto added service into app.module.ts
+    ng g component messages
+    ng g service message --module=app (Automatically add service to app.module.ts)
 
-
+    Add the component into app.component.html
+        <app-movies></app-movies>
+        <app-messages></app-messages>   
+    Msg only show when there is a valid/non-null val
+    Msg calls the msg service to get the data
+    First load, the page will call the movie service to get the service list
+    also add the "date" to "msgs[]" in "msg service"    
 ```
 ## Common Errors:
 ```
@@ -292,6 +301,45 @@ movie.service.ts file:
 component.ts file:
     Need to subcribe to wait for the data to get back
         this.movieService.getMovies().subscribe(data => this.movies = data);
+```
+## 10 - Service calls other service
+```
+Generate msg component and mes service:
+    ng g component messages
+    ng g service message --module=app (Automatically add service to app.module.ts)
+Add the component into app.component.html
+        <app-movies></app-movies>
+        <app-messages></app-messages>   
+Msg only show when there is a valid/non-null val
+Msg calls the msg service to get the data
+    <div 
+    *ngIf="messageService.messages.length"
+    style="text-align: left;"
+    >
+        <h4>Messages</h4>
+        <button 
+            class="clear"
+            (click)="messageService.deleteAllMessages()"
+        >
+            Delete All Messages
+        </button>
+
+        <div *ngFor="let msg of messageService.messages">
+            {{msg}}
+        </div>
+    </div>
+First load, the page will call the movie service to get the service list
+also add the "date" to "msgs[]" in "msg service"    
+    // Bring in msg service:
+    import { MessageService } from './message.service';
+
+    getMovies() : Observable< Movie[] > {
+        // return localMovies;
+        // Call the other service to add the date to the msgs array for the
+        // msg component to display it out to the view
+        this.messageService.add(`${new Date().toLocaleString()}. Get movie list`);
+        return of( localMovies );
+    }
 ```
 
 
