@@ -1,0 +1,27 @@
+ .main-nav ul
+{
+    display: grid;
+    grid-gap: 20px;
+    list-style: none;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.main-nav a
+{
+    text-decoration: none;
+    background: turquoise;
+    padding: 0.8em;
+    border-radius: 4px;
+    color: black;
+    display: block;
+    text-align: center;
+    font-size: 1.1em;
+    box-shadow: 0 1px 5px rgba(104,104,104, 0.8);
+    text-transform: uppercase;
+}
+
+.main-nav a:hover
+{
+    background: tomato !important;
+    color: white;
+}

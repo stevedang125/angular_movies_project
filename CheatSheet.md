@@ -53,7 +53,30 @@
     Msg only show when there is a valid/non-null val
     Msg calls the msg service to get the data
     First load, the page will call the movie service to get the service list
-    also add the "date" to "msgs[]" in "msg service"    
+    also add the "date" to "msgs[]" in "msg service"
+12. Routes and RouterOutlet
+    ng g module app-routing --flat --module=app  
+    --flat : add this to src/app
+    --module=app: add/import the path to app.module.ts
+
+    Create a narbar component for navbar
+        ng g component navbar
+
+    app-routing.module.ts, bring in the Routes, RouterModule & Components
+        import { Routes, RouterModule } from '@angular/router';
+        import { MoviesComponent } from './movies/movies.component';
+        @NgModule({
+            imports: [ RouterModule.forRoot(routes), ],
+            exports: [ RouterModule ]
+        })
+    Create some routes:
+        const routes: Routes = [ {path:'', component: }, ... ];
+    app.component.html
+        <app-navbar></app-navbar>
+        <router-outlet></router-outlet>
+    
+    
+
 ```
 ## Common Errors:
 ```
@@ -341,6 +364,70 @@ also add the "date" to "msgs[]" in "msg service"
         return of( localMovies );
     }
 ```
+## 11 - Routes and RouterOutlet
+```
+ng g module app-routing --flat --module=app  
+    --flat : add this to src/app
+    --module=app: add/import the path to app.module.ts
 
+Create a narbar component for navbar
+    ng g component navbar
+
+app-routing.module.ts, bring in the Routes, RouterModule & Components
+    import { Routes, RouterModule } from '@angular/router';
+    import { MoviesComponent } from './movies/movies.component';
+    @NgModule({
+        imports: [ RouterModule.forRoot(routes), ],
+        exports: [ RouterModule ]
+    })
+Create some routes:
+    const routes: Routes = [
+        { path: 'movies', component: MoviesComponent},
+    ];
+app.component.html
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+
+Navbar Component ts
+    Bring in routes and routerlink
+        import { Routes, RouterLink } from '@angular/router'; 
+Navbar html
+    Create a list of links
+        <nav class="main-nav">
+        <ul>
+            <a class="nav-item" routerLink='/'>Home</a>
+            <a class="nav-item" routerLink='/movies'>Movies</a>
+        </ul>
+        </nav>
+Navbar CSS
+    .main-nav ul
+    {
+        display: grid;
+        grid-gap: 20px;
+        list-style: none;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .main-nav a
+    {
+        text-decoration: none;
+        background: turquoise;
+        padding: 0.8em;
+        border-radius: 4px;
+        color: black;
+        display: block;
+        text-align: center;
+        font-size: 1.1em;
+        box-shadow: 0 1px 5px rgba(104,104,104, 0.8);
+        text-transform: uppercase;
+    }
+
+    .main-nav a:hover
+    {
+        background: tomato !important;
+        color: white;
+    }
+        
+```
 
 
