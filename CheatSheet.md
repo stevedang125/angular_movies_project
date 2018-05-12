@@ -81,8 +81,40 @@
         { path: '',  redirectTo: '/dashboard', pathMatch:'full'},  
     Everything else that isn't a valid path, redirect to /dashboard
         { path: '**', redirectTo: '/dashboard', pathMatch:'full'}  
-
-    
+14. Master-Child Component
+    App.routing.module.ts
+        Bring in the components for routes
+            import { MovieDetailComponent } from './movie-detail/movie-detail.component';
+            import { Movie } from '../models/movie';
+            { path: 'detail/:id', component: MovieDetailComponent},  
+    Dashboard HTML:
+        routerLink will be detail+id
+        eg: routerLink="/detail/{{movie.id}}"
+    Movie Service:
+        Create a method to get the movie by its id
+            getMovieFromId(id: number): Observable<Movie>{
+                return of(localMovies.find(movie => movie.id === id));
+            }
+    Movie Component HTML:
+        Now the movie details will navigate to another link
+                    <li class="movieListItem" *ngFor="let movie of movies"
+                    ><a routerLink="/detail/{{movie.id}}"
+                        style="text-decoration: none;"
+                        > {{movie.name}} - {{movie.releaseYear}} </a></li>
+                
+    Movie Detail Component TS:
+        Bring in the ActivatedRoute, Location(goback function), MovieService(for data)
+        Inject into the constructor to use these:
+        Create the getMovieFromRoute to get the data from service
+            getMovieFromRoute(): void {
+                const id = +this.route.snapshot.paramMap.get('id');
+                this.movieService.getMovieFromId(id).subscribe(data => {
+                    this.movie = data;
+                });
+            }
+            goBack(): void{
+                this.location.back();
+            }
 
 ```
 ## Common Errors:
@@ -127,6 +159,17 @@
 2. Component must be added into declarations: [ ]
 3. Module must be added into imports: [ ]
 4. Services must be added into providers: [ ]
+5. To use anything in angular, eg: services:
+    Import the service
+        import { ActivatedRoute } from '@angular/router';
+        import { Location } from '@angular/common';
+        import { MovieService } from '../services/movie.service';
+    Inject the service into constructor.
+        constructor(
+            private route: ActivatedRoute,
+            private movieService: MovieService,
+            private location: Location,
+        ) { }
 ```
 
 ## 02 - Create new Components:
@@ -509,4 +552,114 @@ Dashboard CSS:
         box-sizing: border-box;
     }
 ```
+## 13 - Master Detail Components:
+```
+App.routing.module.ts
+    Bring in the components for routes
+        import { MovieDetailComponent } from './movie-detail/movie-detail.component';
+        import { Movie } from '../models/movie';
+        { path: 'detail/:id', component: MovieDetailComponent},  
+Dashboard HTML:
+    routerLink will be detail+id
+        <h3>Top 4 movies</h3>
+        <div>
+            <a 
+                class="col-1-4" 
+                *ngFor="let movie of movies"
+                style="text-decoration: none"
+                routerLink="/detail/{{movie.id}}"
+            >
+                <div class="movie-box">
+                    <h4>{{movie.name}}</h4>
+                </div>
+            </a>
+        </div>
+Movie Service:
+    Create a method to get the movie by its id
+        getMovieFromId(id: number): Observable<Movie>{
+            return of(localMovies.find(movie => movie.id === id));
+        }
+Movie Component HTML:
+    Now the movie details will navigate to another link
+    eg: http://localhost:4200/detail/2
 
+        <h2>My movies</h2>
+        <div class="parent">
+            <ol class="movies">
+                <li 
+                    class="movieListItem" 
+                    *ngFor="let movie of movies"
+                >
+                    <a 
+                        routerLink="/detail/{{movie.id}}"
+                        style="text-decoration: none;"
+                    >
+                        {{movie.name}} - {{movie.releaseYear}} 
+                    </a>
+                </li>
+            </ol>
+        </div>
+Movie Detail HTML:
+    <div *ngIf="movie" class="details">
+            <h4>You selected: {{movie.name}}. Details:</h4>
+            <table>
+            <tr>
+                <td>Name: </td>
+                <td>
+                    <input [(ngModel)]="movie.name" 
+                    placeholder="*Name"
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Release Year: </td>
+                <td>
+                    <input [(ngModel)]="movie.releaseYear" 
+                    placeholder="*Release Year"
+                    >
+                </td>
+            </tr>
+        </table>
+        <button (click)="goBack()">Go Back</button>
+    </div>
+
+Movie Detail Component TS:
+    Bring in the ActivatedRoute, Location(goback function), MovieService(for data)
+        // Inject Singleton route and Goback
+        import { ActivatedRoute } from '@angular/router';
+        import { Location } from '@angular/common';
+        // Service for data
+        import { MovieService } from '../services/movie.service';
+    Inject into the constructor to use these:
+        constructor(
+            private route: ActivatedRoute,
+            private movieService: MovieService,
+            private location: Location,
+        ) { }
+    Create the getMovieFromRoute to get the data from service
+        ngOnInit() {
+            this.getMovieFromRoute();
+        }
+
+        getMovieFromRoute(): void 
+        {
+            // Convert string to number in TypeScript: use "+"
+            // This is a string:
+            //    this.route.snapshot.paramMap.get('id');
+            // Add "+" to convert this string to a number, cuz id datatype is  a number
+            //    +this.route.snapshot.paramMap.get('id');
+            const id = +this.route.snapshot.paramMap.get('id');
+            console.log(`this.route.snapshot.paramMap.get('id') = ${JSON.stringify(this.route.snapshot.paramMap)}`);    
+            // Call service to get the movie from id:
+            // Create a method in service for this job
+            this.movieService.getMovieFromId(id).subscribe(data => {
+            this.movie = data;
+            });
+        }
+
+        goBack(): void
+        {
+            // Navigates back to the previous component
+            this.location.back();
+        }
+```

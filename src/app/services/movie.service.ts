@@ -27,4 +27,17 @@ export class MovieService {
     return of( localMovies );
   }
 
+  // input is an id in datatype number
+  // output is an observable of movie json object type:
+  getMovieFromId(id: number): Observable<Movie>
+  {
+    return of(localMovies.find(movie => movie.id === id));
+    // Or this:
+    // return of(localMovies.find(
+    //   movie => {
+    //     return (movie.id === id);
+    //   }
+    // ));
+  }
+
 }

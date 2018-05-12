@@ -1,5 +1,6 @@
  <div *ngIf="movie" class="details">
         <h4>You selected: {{movie.name}}. Details:</h4>
+        <table>
         <tr>
             <td>Name: </td>
             <td>
@@ -16,4 +17,6 @@
                 >
             </td>
         </tr>
+    </table>
+    <button (click)="goBack()">Go Back</button>
     </div>
