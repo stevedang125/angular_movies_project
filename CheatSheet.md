@@ -145,6 +145,34 @@
                     tap(dataReceived),
                     // Failed
                     catchError(err => of([]))
+## 15 - HTTP PUT request, Update data in the database
+Add a number to the url to get a specific movie object with the id number
+    http://desktop-ru055pg:3000/movies/3
+POSTMAN:
+    PUT request to: http://desktop-ru055pg:3000/movies/2
+    key:
+        name            A Christmas Carol
+        releaseYear     2012
+    Headers
+        Content-Type    application/x-www-form-urlencoded
+
+Movie Service:
+    Send a GET request to the server for data:
+        getMovieFromId(id: number): Observable<Movie>
+            const url = `${this.movieURL}/${id}`;
+            return this.http.get<Movie>(url).pipe(tap(dataReceived),catchError(err => of(new Movie())));
+    Send a PUT request to the server to change the data:
+        updateMovie(movie: Movie): Observable<any>
+            const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+            return this.http.put(`${this.movieURL}/${movie.id}`, movie, httpOptions)
+            .pipe(tap(updatedDate),catchError(err => of(new Movie())));
+Movie Detail Component HTML
+    Add a "Save" button:<button (click)="save()">Save</button> 
+Movie Detail Component TS
+    Save() method that calls the movie service for a PUT request
+    save() : void{
+        this.movieService.updateMovie(this.movie).subscribe(() => this.goBack());
+    }
             
 ```
 ## Common Errors:
@@ -761,6 +789,55 @@ Movie Service ts:
                 tap(dataReceived => console.log(`data received = ${JSON.stringify(dataReceived)}`)),
                 // Failed
                 catchError(err => of([]))
+            );
+        }
+```
+## 15 - HTTP PUT request, Update data in the database
+```
+Add a number to the url to get a specific movie object with the id number
+    http://desktop-ru055pg:3000/movies/3
+POSTMAN:
+    PUT request to: http://desktop-ru055pg:3000/movies/2
+    key:
+        name            A Christmas Carol
+        releaseYear     2012
+    Headers
+        Content-Type    application/x-www-form-urlencoded
+
+Movie Service:
+    Send a GET request to the server for data:
+        getMovieFromId(id: number): Observable<Movie>
+            {
+                const url = `${this.movieURL}/${id}`;
+                return this.http.get<Movie>(url).pipe(
+                    // Success:
+                    tap(dataReceived => console.log(`data received = ${JSON.stringify(dataReceived)}`)),
+                    // Failed
+                    catchError(err => of(new Movie()))
+                );
+            }
+    Send a PUT request to the server to change the data:
+        updateMovie(movie: Movie): Observable<any>
+        {
+            const httpOptions = {
+                headers: new HttpHeaders({'Content-Type': 'application/json'})
+            };
+            return this.http.put(`${this.movieURL}/${movie.id}`, movie, httpOptions)
+            .pipe(
+                // Success:
+                tap(updatedDate => console.log(`data updated = ${JSON.stringify(updatedDate)}`)),
+                // Failed
+                catchError(err => of(new Movie()))
+            );
+        }
+Movie Detail Component HTML
+    Add a "Save" button:
+        <button (click)="save()">Save</button> 
+Movie Detail Component TS
+    Save() method that calls the movie service for a PUT request
+        save() : void{
+            this.movieService.updateMovie(this.movie).subscribe(
+                () => this.goBack()
             );
         }
 ```

@@ -16,6 +16,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class MovieService {
+  // ========================== Defined variables ======================
   private movieURL = 'http://desktop-ru055pg:3000/movies';
   
   constructor(
@@ -23,6 +24,7 @@ export class MovieService {
     private http : HttpClient 
   ) { }
 
+  // =========================== Methods ===============================
   getMovies() : Observable< Movie[] > 
   {
     return this.http.get<Movie[]>(this.movieURL).pipe(
@@ -35,13 +37,28 @@ export class MovieService {
 
   getMovieFromId(id: number): Observable<Movie>
   {
-    return of(localMovies.find(movie => movie.id === id));
-    // Or this:
-    // return of(localMovies.find(
-    //   movie => {
-    //     return (movie.id === id);
-    //   }
-    // ));
+    const url = `${this.movieURL}/${id}`;
+    return this.http.get<Movie>(url).pipe(
+      // Success:
+      tap(dataReceived => console.log(`data received = ${JSON.stringify(dataReceived)}`)),
+      // Failed
+      catchError(err => of(new Movie()))
+    );
+  }
+
+  updateMovie(movie: Movie): Observable<any>
+  {
+    const httpOptions = 
+    {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.put(`${this.movieURL}/${movie.id}`, movie, httpOptions)
+    .pipe(
+      // Success:
+      tap(updatedDate => console.log(`data updated = ${JSON.stringify(updatedDate)}`)),
+      // Failed
+      catchError(err => of(new Movie()))
+    );
   }
   
 

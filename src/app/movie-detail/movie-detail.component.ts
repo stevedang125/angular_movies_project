@@ -38,7 +38,16 @@ export class MovieDetailComponent implements OnInit {
     // Create a method in service for this job
     this.movieService.getMovieFromId(id).subscribe(data => {
       this.movie = data;
+      console.log('checking movie:'+this.movie.name);
+      
     });
+  }
+
+  save() : void
+  {
+    this.movieService.updateMovie(this.movie).subscribe(
+      () => this.goBack()
+    );
   }
 
   goBack(): void
