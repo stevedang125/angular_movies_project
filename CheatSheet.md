@@ -115,11 +115,41 @@
             goBack(): void{
                 this.location.back();
             }
-
+15. HTTP GET request from a made up API with json-server
+    Use npm to install global json-server
+        npm install -g json-server
+    Create an empty .json file 
+        touch db.json
+    Add data into this db.json file
+    Start the server:
+        json-server --watch db.json
+    Get request is:
+        http://localhost:3000/movies
+    Use hostname to access the server
+        $ hostname
+        DESKTOP-RU055PG
+        DESKTOP-RU055PG:3000/movies
+    Bring the HttpClientModule in app.module.ts
+        import { HttpClientModule } from '@angular/common/http';
+        imports: [HttpClientModule],
+    Movie Service ts:
+        Import HttpClient, HttpHeaders, catchError, map, tap
+            import { HttpClient, HttpHeaders } from '@angular/common/http';
+            import { catchError, map, tap } from 'rxjs/operators';
+        Define a string for the get request
+            private movieURL = 'http://desktop-ru055pg:3000/movies';
+        Fix up the get data method
+            getMovies() : Observable< Movie[] > 
+                return this.http.get<Movie[]>(this.movieURL).pipe(
+                    // Success:
+                    tap(dataReceived),
+                    // Failed
+                    catchError(err => of([]))
+            
 ```
 ## Common Errors:
 ```
-1.  Un-filled attributes:
+1.  Missing attributes:
     Error:
         movie : Movie = 
         {
@@ -661,5 +691,76 @@ Movie Detail Component TS:
         {
             // Navigates back to the previous component
             this.location.back();
+        }
+```
+## 14 - HTTP GET request from a made up API with json-server
+```
+Use npm to install global json-server
+    npm install -g json-server
+Create an empty .json file 
+    touch db.json
+Add data into this db.json file:
+    {
+        "movies":
+        [
+            {
+                "id": 1,
+                "name": "The Ghost and the Darkness",
+                "releaseYear": 1996
+            }
+        ],
+        "comments":
+        [
+            {
+                "id":1,
+                "body": "This film is awesome",
+                "movieID":1
+            },
+            {
+                "id":2,
+                "body": "I like this movie",
+                "movieID":1
+            }
+        ],
+        "profile":
+        {
+            "name":"typicode"
+        }
+    }
+Start the server:
+    json-server --watch db.json
+Get request is:
+    http://localhost:3000/movies
+Use hostname to access the server
+    $ hostname
+    DESKTOP-RU055PG
+    DESKTOP-RU055PG:3000/movies
+
+Bring the HttpClientModule in app.module.ts
+    import { HttpClientModule } from '@angular/common/http';
+
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule
+    ],
+Movie Service ts:
+    Import HttpClient, HttpHeaders, catchError, map, tap
+        // Bring in http client, http headers to send request to the server
+        import { HttpClient, HttpHeaders } from '@angular/common/http';
+        // Bring in the operators for success/failed data of observable
+        import { catchError, map, tap } from 'rxjs/operators';
+    Define a string for the get request
+        private movieURL = 'http://desktop-ru055pg:3000/movies';
+    Fix up the get data method
+        getMovies() : Observable< Movie[] > 
+        {
+            return this.http.get<Movie[]>(this.movieURL).pipe(
+                // Success:
+                tap(dataReceived => console.log(`data received = ${JSON.stringify(dataReceived)}`)),
+                // Failed
+                catchError(err => of([]))
+            );
         }
 ```
