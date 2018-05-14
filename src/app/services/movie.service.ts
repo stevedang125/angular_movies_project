@@ -17,6 +17,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 // Bring in the operators for success/failed data of observable
 import { catchError, map, tap } from 'rxjs/operators';
 
+// Global var for put/post request
+const httpOptions = 
+{
+  headers: new HttpHeaders({'Content-Type':'application/json'})
+};
+
 @Injectable()
 export class MovieService {
   // ========================== Defined variables ======================
@@ -50,19 +56,27 @@ export class MovieService {
       catchError(err => of(new Movie()))
     );
   }
-
+  // =========================== Update Movie ===============================
+  // ** Update a existing movie 
   updateMovie(movie: Movie): Observable<any>
   {
-    const httpOptions = 
-    {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    };
     return this.http.put(`${this.movieURL}/${movie.id}`, movie, httpOptions)
     .pipe(
       // Success:
       tap(updatedDate => console.log(`data updated = ${JSON.stringify(updatedDate)}`)),
       // Failed
       catchError(err => of(new Movie()))
+    );
+  }
+
+  // =========================== Post/Add Movie ===============================
+  // ** POST: Add a new movie to the server
+  addMovie(new_movie: Movie) : Observable<any> 
+  {
+    return this.http.post(`${this.movieURL}`, new_movie, httpOptions)
+    .pipe(
+      tap(postedData => console.log(`data posted = ${JSON.stringify(postedData)}`)),
+      catchError(err => of(new Movie()))  
     );
   }
   

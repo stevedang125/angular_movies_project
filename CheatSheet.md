@@ -145,7 +145,7 @@
                     tap(dataReceived),
                     // Failed
                     catchError(err => of([]))
-## 15 - HTTP PUT request, Update data in the database
+15 - HTTP PUT request, Update data into the database
 Add a number to the url to get a specific movie object with the id number
     http://desktop-ru055pg:3000/movies/3
 POSTMAN:
@@ -172,6 +172,35 @@ Movie Detail Component TS
     Save() method that calls the movie service for a PUT request
     save() : void{
         this.movieService.updateMovie(this.movie).subscribe(() => this.goBack());
+    }
+16 - HTTP POST request, Add data into the database
+Check POST request with POSTMAN:
+
+Movie Service:
+    Global http header above @Injectable
+    POST: Add a new movie to the server 
+
+Movie Component HTML
+    <input #movieName placeholder="*Name">
+    <input #releaseYear placeholder="*Release Year">
+    <button (click)="add_new_movie(movieName.value, releaseYear.value);
+    movieName.value=''; releaseYear.value='' " >Add</button>
+        ^ Clear out the input after add button is clicked
+        #<var_name>: is the id, to access this var value use
+        <var_name>.value
+
+Movie Component TS
+    add_new_movie(name: string, releaseYear: string) : void {
+        name = name.trim();
+        releaseYear = releaseYear.trim();
+        if(Number.isNaN(Number(releaseYear)) || !name || Number(releaseYear)===0 )
+            return;
+        const new_movie: Movie = new Movie();
+        new_movie.name = name;
+        new_movie.releaseYear = Number(releaseYear);
+        this.movieService.addMovie(new_movie).subscribe(added_movie => {
+            this.movies.push(added_movie);
+        });
     }
             
 ```
@@ -840,4 +869,82 @@ Movie Detail Component TS
                 () => this.goBack()
             );
         }
+```
+## 16 - HTTP POST request:
+```
+Check POST request with POSTMAN:
+    http://desktop-ru055pg:3000/movies/
+    headers: Content-Type   application/x-www-form-urlencoded
+    body:   key         value
+            name        The Avengers: Infinity War
+            releaseYear 2018
+    Output:
+        {
+            "name": "The Avengers: Infinity War",
+            "releaseYear": "2018",
+            "id": 10
+        }
+Movie Service:
+    Global http header
+        const httpOptions = {
+            headers: new HttpHeaders({'Content-Type':'application/json'})
+        };
+        @Injectable()
+
+    POST: Add a new movie to the server
+        addMovie(new_movie: Movie) : Observable<any> 
+        {
+            return this.http.post(`${this.movieURL}`, new_movie, httpOptions)
+            .pipe(
+                tap(postedData => console.log(`data posted = ${JSON.stringify(postedData)}`)),
+                catchError(err => of(new Movie()))  
+            );
+        }
+Movie Component HTML
+    <!-- Add movie input -->
+    <div style="text-align: left;">
+        <table style="width: 300px;">
+            <tr>
+                <td>New Movie's Name: </td>
+                <td>
+                    <input #movieName placeholder="*Name">
+                </td>
+            </tr>
+            <tr>
+                <td>Release Year</td>
+                <td>
+                    <input #releaseYear placeholder="*Release Year">
+                </td>
+            </tr>
+            <tr>
+                <button (click)="add_new_movie(movieName.value, releaseYear.value);
+                movieName.value=''; releaseYear.value='' " >Add</button>
+            </tr>
+        </table>
+    </div>
+
+Movie Component TS
+    add_new_movie(name: string, releaseYear: string) : void 
+    {
+        // Clean up, remove start/end spaces
+        name = name.trim();
+        releaseYear = releaseYear.trim();
+        // Check point: these data cannot be blank or must be a number
+        if(Number.isNaN(Number(releaseYear)) || !name || Number(releaseYear)===0 )
+        {
+        alert('Name must not be blank, Release Year must be a number');
+        return;
+        }
+
+        // Successful passed check point, create a new movie object
+        const new_movie: Movie = new Movie();
+        new_movie.name = name;
+        new_movie.releaseYear = Number(releaseYear);
+
+        this.movieService.addMovie(new_movie).subscribe(added_movie => {
+        this.movies.push(added_movie);
+        });
+    }
+
+
 ```

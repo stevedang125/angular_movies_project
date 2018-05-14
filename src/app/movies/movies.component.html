@@ -1,4 +1,26 @@
 <h2>My movies</h2>
+<!-- Add movie input -->
+<div style="text-align: left;">
+    <table style="width: 300px;">
+        <tr>
+            <td>New Movie's Name: </td>
+            <td>
+                <input #movieName placeholder="*Name">
+            </td>
+        </tr>
+        <tr>
+            <td>Release Year</td>
+            <td>
+                <input #releaseYear placeholder="*Release Year">
+            </td>
+        </tr>
+        <tr>
+            <button (click)="add_new_movie(movieName.value, releaseYear.value);
+            movieName.value=''; releaseYear.value='' " >Add</button>
+        </tr>
+    </table>
+</div>
+
 <div class="parent">
     <ol class="movies">
         <li 
