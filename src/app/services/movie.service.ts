@@ -6,6 +6,9 @@ import { Movie } from '../../models/movie';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+// import { Observable } from 'rxjs/observable';
+// import { of } from 'rxjs/observable/of';
+
 // Bring in msg service:
 import { MessageService } from './message.service';
 
@@ -17,7 +20,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable()
 export class MovieService {
   // ========================== Defined variables ======================
-  private movieURL = 'http://desktop-ru055pg:3000/movies';
+  // private movieURL = 'http://desktop-ru055pg:3000/movies';
+  private movieURL = 'http://localhost:3000/movies';
+  // DESKTOP-8GNC9G8
   
   constructor(
     public messageService: MessageService,
